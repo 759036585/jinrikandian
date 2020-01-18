@@ -1,6 +1,8 @@
 <template>
 <!--    布局组件-->
-  <div>布局组件</div>
+  <div>
+    <router-view></router-view>
+  </div>
 </template>
 
 <script>
