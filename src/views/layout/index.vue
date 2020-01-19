@@ -10,7 +10,7 @@
     <div class="my-wrapper" :class="{ noTop: !showNavBar}">
       <router-view></router-view>
     </div>
-    <van-tabbar>
+    <van-tabbar v-model="active" route>
       <van-tabbar-item icon="home-o" to="/">首页</van-tabbar-item>
       <van-tabbar-item icon="chat-o" to="/question">问答</van-tabbar-item>
       <van-tabbar-item icon="video-o" to="/video">视频</van-tabbar-item>
@@ -24,6 +24,7 @@ export default {
   name: 'index',
   data () {
     return {
+      active: 0
     }
   },
   computed: {
