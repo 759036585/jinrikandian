@@ -1,0 +1,77 @@
+[33mcommit 76daba45fcf603baf2a565840a4b09286f04e8cb[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m)[m
+Author: unknown <759036585@qq.com>
+Date:   Sun Jan 19 14:35:37 2020 +0800
+
+    登录表单验证
+
+[33mcommit 5ee3dcb0cf731392ccbf05d9fd7cf58b1ce0111c[m
+Author: unknown <759036585@qq.com>
+Date:   Sun Jan 19 14:00:03 2020 +0800
+
+    路由拦截登录完成
+
+[33mcommit b78335f043d4e5f7c205a6e0081b620723c5bb35[m[33m ([m[1;31morigin/master[m[33m)[m
+Author: unknown <759036585@qq.com>
+Date:   Sun Jan 19 13:50:42 2020 +0800
+
+    处理token失效问题
+
+[33mcommit d235b9aa0d7c396c850fdd66ee4bbed946f09a6c[m
+Author: unknown <759036585@qq.com>
+Date:   Sun Jan 19 13:27:46 2020 +0800
+
+    初步request工具封装
+
+[33mcommit 28255c0b9c11cb0abdbfcd2085ef2bc9f74da7e8[m
+Author: unknown <759036585@qq.com>
+Date:   Sun Jan 19 11:27:23 2020 +0800
+
+    vuex 状态管理token完成
+
+[33mcommit e8b6dbf804a0261c60d3c940b8aec405f51fffd2[m
+Author: unknown <759036585@qq.com>
+Date:   Sun Jan 19 11:06:32 2020 +0800
+
+    本地存储token 封装完成
+
+[33mcommit 25903083e3d94bf0b4a5f0c195719e13a0d013e2[m
+Author: unknown <759036585@qq.com>
+Date:   Sun Jan 19 10:59:31 2020 +0800
+
+    其它功能组件 基本编写 完成
+
+[33mcommit a05f60ed45e72f256275ba4c2805f224cae2a31d[m
+Author: unknown <759036585@qq.com>
+Date:   Sun Jan 19 10:48:25 2020 +0800
+
+    骨架屏搭建完成
+
+[33mcommit 2ee2622ca08c50f41b0f8a7e019828e2048e3e9c[m
+Author: unknown <759036585@qq.com>
+Date:   Sun Jan 19 10:26:10 2020 +0800
+
+    全局样式搭建完成
+
+[33mcommit d2ec72c13db83c0bff3c1e28be6bb9ce3bb65f26[m
+Author: unknown <759036585@qq.com>
+Date:   Sun Jan 19 09:54:37 2020 +0800
+
+    首页路由跳转完成
+
+[33mcommit fdade403da94f2c9bba836fa26e0bda0adef46cc[m
+Author: unknown <759036585@qq.com>
+Date:   Sat Jan 18 16:26:32 2020 +0800
+
+    首页基本布局完成
+
+[33mcommit c0933e3564233b7eb1662a435924846fe858da95[m
+Author: unknown <759036585@qq.com>
+Date:   Sat Jan 18 15:58:55 2020 +0800
+
+    路由规则完成
+
+[33mcommit e9f427f8b4ac40228cb0d669ad3a9980cc432fb4[m
+Author: unknown <759036585@qq.com>
+Date:   Sat Jan 18 15:28:26 2020 +0800
+
+    基础搭建完成
