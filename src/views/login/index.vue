@@ -29,6 +29,7 @@
 </template>
 
 <script>
+import { login } from '../../api/user'
 export default {
   name: 'index',
   data () {
@@ -70,6 +71,8 @@ export default {
     },
     async login () {
       if (this.checkMobile() && this.checkCode()) {
+        const data = await login(this.loginForm)
+        console.log(data)
       }
     }
   }
