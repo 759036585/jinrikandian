@@ -3,15 +3,7 @@
   <div class="container">
     <van-tabs v-model="active" swipeable>
       <van-tab :title="'标签'+ item" v-for="item in 10" :key="item">
-        <div class="scroll-wrapper">
-          <van-cell-group>
-            <van-cell
-              v-for="obj in 20"
-              :key="obj"
-              :title="item"
-            />
-          </van-cell-group>
-        </div>
+        <article-list></article-list>
       </van-tab>
     </van-tabs>
     <span class="bar_btn">
@@ -21,7 +13,11 @@
 </template>
 
 <script>
+import ArticleList from './components/article-list'
 export default {
+  components: {
+    ArticleList
+  },
   name: 'index',
   data () {
     return {
