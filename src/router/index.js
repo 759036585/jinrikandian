@@ -23,9 +23,9 @@ const routes = [
       { path: '/user', component: User }
     ]
   }, // 一级路由组件
-  { path: '/profile', component: Profile },
+  { path: '/user/profile', component: Profile },
   // 小智同学组件
-  { path: '/chat', component: Chat },
+  { path: '/user/chat', component: Chat },
   // 登陆组件
   { path: '/login', component: Login },
   { path: '/search', component: Search },

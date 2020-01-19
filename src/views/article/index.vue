@@ -1,6 +1,8 @@
 <template>
 <!--    文章详情-->
-  <div>文章详情组件</div>
+  <div class="container">
+    <nav-van-bar title="文章详情" left-arrow @click-left="$router.back()"></nav-van-bar>
+  </div>
 </template>
 
 <script>
