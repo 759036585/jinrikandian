@@ -1,6 +1,6 @@
 <template>
 <!--    首页组件-->
-  <div>首页组件</div>
+  <div class="container">首页组件</div>
 </template>
 
 <script>

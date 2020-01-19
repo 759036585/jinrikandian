@@ -5,6 +5,7 @@
             title="今日看点"
             right-text="搜索"
             fixed
+            v-if="showNavBar"
             @click-right="onClickRight"
     />
     <div class="my-wrapper" :class="{ noTop: !showNavBar}">

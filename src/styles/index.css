@@ -14,13 +14,16 @@ ul {
   height: 100%;
   font-size: 14px;
 }
+.splite {
+  margin-top: 10px;
+}
 .van-nav-bar {
   background: #3296fa;
 }
-.van-nav-bar .van-nav-bar_title {
+.van-nav-bar .van-nav-bar__title {
   color: #fff;
 }
-.van-nav-bar .van-nav-bar_text {
+.van-nav-bar .van-nav-bar__text {
   color: #fff;
   font-size: 12px;
 }

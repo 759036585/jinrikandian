@@ -1,6 +1,13 @@
 <template>
 <!--    问答组件-->
-  <div>问答组件</div>
+  <div>
+    <div class="splite"></div>
+    <van-skeleton title :row="3" />
+    <div class="splite"></div>
+    <van-skeleton title :row="3" />
+    <div class="splite"></div>
+    <van-skeleton title :row="3" />
+  </div>
 </template>
 
 <script>
