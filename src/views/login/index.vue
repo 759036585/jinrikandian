@@ -30,6 +30,7 @@
 
 <script>
 import { login } from '../../api/user'
+import { mapMutations } from 'vuex'
 export default {
   name: 'index',
   data () {
@@ -69,10 +70,18 @@ export default {
       this.errorMessage.code = ''
       return true
     },
+    ...mapMutations(['updateUser']),
     async login () {
       if (this.checkMobile() && this.checkCode()) {
+        // 表示验证通过 还要调用接口
         const data = await login(this.loginForm)
-        console.log(data)
+        // console.log(data)
+        // 更新用户信息
+        this.updateUser({ user: data })
+        this.$notify({ type: 'success', message: '登录成功', duration: 800 })
+        // 跳转
+        let { redirectUrl } = this.$route.query // 结构当前的路由信息
+        this.$router.push(redirectUrl || '/') // 短路表达式
       }
     }
   }
