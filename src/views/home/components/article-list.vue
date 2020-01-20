@@ -50,6 +50,7 @@ export default {
   },
   methods: {
     async onLoad () {
+      await this.$sleep()
       let data = await getArticles({ channel_id: this.channel_id, timestamp: this.timestamp || Date.now() })
       // console.log(data)
       // 追加数据到队尾
@@ -62,9 +63,18 @@ export default {
         this.finished = true // 没有数据了
       }
     },
-    onRefresh () {
-      this.refreshSuccessText = '更新成功'
-      this.downLoading = false
+    async onRefresh () {
+      await this.$sleep()
+      let data = await getArticles({ channel_id: this.channel_id, timestamp: Date.now() })
+      this.downLoading = false // 关掉下拉状态
+      if (data.results.length) {
+        this.articles = data.results
+        this.finished = false
+        this.timestamp = data.pre_timestamp
+        this.refreshSuccessText = '更新成功'
+      } else {
+        this.refreshSuccessText = '已是最新数据'
+      }
     }
   }
 }

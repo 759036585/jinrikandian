@@ -6,9 +6,10 @@ import Vant from 'vant'
 import 'vant/lib/index.css'
 import 'amfe-flexible'
 import './styles/index.css'
+import Plugin from './utils/plugin'
 
 Vue.use(Vant)
-
+Vue.use(Plugin)
 Vue.config.productionTip = false
 
 new Vue({
