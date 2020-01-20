@@ -36,6 +36,7 @@
 </template>
 
 <script>
+
 export default {
   name: 'article-list',
   data () {

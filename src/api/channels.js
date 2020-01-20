@@ -4,6 +4,6 @@ import requset from '../utils/request'
 // 获取我的频道
 export const getMyChannels = () => {
   return requset({
-    url: '/channels'
+    url: '/user/channels'
   })
 }
