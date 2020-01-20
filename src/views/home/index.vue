@@ -3,7 +3,7 @@
   <div class="container">
     <van-tabs v-model="active" swipeable>
       <van-tab :title="item.name" v-for="item in channels" :key="item.id">
-        <article-list></article-list>
+        <article-list :channel_id="item.id"></article-list>
       </van-tab>
     </van-tabs>
     <span class="bar_btn">
@@ -30,6 +30,7 @@ export default {
     // 获取频道
     async getMyChannels () {
       let data = await getMyChannels()
+      // console.log(data)
       this.channels = data.channels
     }
   },

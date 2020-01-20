@@ -36,8 +36,8 @@ export default {
   data () {
     return {
       loginForm: {
-        mobile: null,
-        code: null
+        mobile: '13911111111',
+        code: '246810'
       },
       errorMessage: {
         mobile: '',

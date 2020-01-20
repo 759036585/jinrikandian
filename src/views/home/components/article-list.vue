@@ -2,30 +2,21 @@
     <div class="scroll-wrapper">
       <van-pull-refresh v-model="downLoading" @refresh="onRefresh" :success-text="refreshSuccessText">
         <van-list v-model="upLoading" :finished="finished" @load="onLoad">
-          <van-cell v-for="article in articles" :key="article" >
-            <div class="article_item">
-              <h3 class="van-ellipsis">PullRefresh下拉刷新PullRefresh下拉刷新</h3>
-              <div class="img_box">
-                <van-image class="w33" fit="cover" src="https://img.yzcdn.cn/vant/cat.jpeg" />
-                <van-image class="w33" fit="cover" src="https://img.yzcdn.cn/vant/cat.jpeg" />
-                <van-image class="w33" fit="cover" src="https://img.yzcdn.cn/vant/cat.jpeg" />
+          <van-cell v-for="item in articles" :key="item.art_id.toString()" >
+            <div class="article_item" >
+              <h3 class="van-ellipsis">{{ item.title }}</h3>
+              <div class="img_box" v-if="item.cover.type === 3">
+                <van-image class="w33" fit="cover" :src="item.cover.images[0]" />
+                <van-image class="w33" fit="cover" :src="item.cover.images[1]" />
+                <van-image class="w33" fit="cover" :src="item.cover.images[2]" />
+              </div>
+              <div class="img_box" v-if="item.cover.type === 1">
+                <van-image class="w100" fit="cover" :src="item.cover.images[0]"  />
               </div>
               <div class="info_box">
-                <span>你像一阵风</span>
-                <span>8评论</span>
-                <span>10分钟前</span>
-                <span class="close"><van-icon name="cross"></van-icon></span>
-              </div>
-            </div>
-            <div class="article_item">
-              <h3 class="van-ellipsis">PullRefresh下拉刷新PullRefresh下拉刷新</h3>
-              <div class="img_box">
-                <van-image class="w100" fit="cover" src="https://img.yzcdn.cn/vant/cat.jpeg" />
-              </div>
-              <div class="info_box">
-                <span>你像一阵风</span>
-                <span>8评论</span>
-                <span>10分钟前</span>
+                <span>{{ item.aut_name }}</span>
+                <span>{{ item.comm_count }}评论</span>
+                <span>{{ item.pubdate }}</span>
                 <span class="close"><van-icon name="cross"></van-icon></span>
               </div>
             </div>
@@ -36,30 +27,40 @@
 </template>
 
 <script>
+import { getArticles } from '../../../api/article'
 
 export default {
   name: 'article-list',
+  props: {
+    channel_id: {
+      type: Number, // type是指定的类型
+      default: null, // default 是默认值
+      required: true // 要求必须传该props属性 否则报错
+    }
+  },
   data () {
     return {
       upLoading: false, // 是否加载数据
       finished: false, // 加载是否完成
       downLoading: false, // 是否开启下拉刷新
       articles: [],
-      refreshSuccessText: ''
+      refreshSuccessText: '',
+      timestamp: null
     }
   },
   methods: {
-    onLoad () {
-      // console.log('开始加载数据')
-      setTimeout(() => {
-        if (this.articles.length === 50) {
-          this.finished = true
-        } else {
-          let arr = Array.from(Array(10), (value, index) => index + this.articles.length + 1)
-          this.articles.push(...arr)
-          this.upLoading = false
-        }
-      }, 1000)
+    async onLoad () {
+      let data = await getArticles({ channel_id: this.channel_id, timestamp: this.timestamp || Date.now() })
+      // console.log(data)
+      // 追加数据到队尾
+      this.articles.push(...data.results)
+      // 关闭加载状态
+      this.upLoading = false
+      if (data.pre_timestamp) {
+        this.timestamp = data.pre_timestamp
+      } else {
+        this.finished = true // 没有数据了
+      }
     },
     onRefresh () {
       this.refreshSuccessText = '更新成功'
