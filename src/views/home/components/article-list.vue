@@ -6,18 +6,21 @@
             <div class="article_item" >
               <h3 class="van-ellipsis">{{ item.title }}</h3>
               <div class="img_box" v-if="item.cover.type === 3">
-                <van-image class="w33" fit="cover" :src="item.cover.images[0]" />
-                <van-image class="w33" fit="cover" :src="item.cover.images[1]" />
-                <van-image class="w33" fit="cover" :src="item.cover.images[2]" />
+                <van-image lazy-load class="w33" fit="cover" :src="item.cover.images[0]" />
+                <van-image lazy-load  class="w33" fit="cover" :src="item.cover.images[1]" />
+                <van-image lazy-load  class="w33" fit="cover" :src="item.cover.images[2]" />
               </div>
               <div class="img_box" v-if="item.cover.type === 1">
-                <van-image class="w100" fit="cover" :src="item.cover.images[0]"  />
+                <van-image lazy-load  class="w100" fit="cover" :src="item.cover.images[0]"  />
               </div>
               <div class="info_box">
                 <span>{{ item.aut_name }}</span>
                 <span>{{ item.comm_count }}评论</span>
                 <span>{{ item.pubdate | relTime }}</span>
-                <span class="close"><van-icon name="cross"></van-icon></span>
+                <span class="close" v-if="user.token">
+                  <van-icon name="cross">
+                  </van-icon>
+                </span>
               </div>
             </div>
           </van-cell>
@@ -28,7 +31,7 @@
 
 <script>
 import { getArticles } from '../../../api/article'
-
+import { mapState } from 'vuex'
 export default {
   name: 'article-list',
   props: {
@@ -37,6 +40,9 @@ export default {
       default: null, // default 是默认值
       required: true // 要求必须传该props属性 否则报错
     }
+  },
+  computed: {
+    ...mapState(['user'])
   },
   data () {
     return {
