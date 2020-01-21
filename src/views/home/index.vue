@@ -10,7 +10,8 @@
       <van-icon name="wap-nav"/>
     </span>
     <van-popup :style="{ width: '80%' }" v-model="showMoreAction">
-      <more-action @dislike="dislike" @report="report($event)"></more-action>
+<!--      <more-action @dislike="dislike" @report="report($event)"></more-action>-->
+      <more-action @dislike="dislikeOrReport($event, 'dislike')" @report="dislikeOrReport($event, 'report')"></more-action>
     </van-popup>
   </div>
 </template>
@@ -36,26 +37,43 @@ export default {
     }
   },
   methods: {
-    async report (params) {
+    // async report (params) {
+    //   try {
+    //     if (this.articleId) {
+    //       await reportArticle({
+    //         target: this.articleId,
+    //         type: params
+    //       })
+    //       this.$notify({ type: 'success', message: '操作成功' })
+    //       eventBus.$emit('delArticle', this.articleId, this.channels[this.active].id)
+    //       this.showMoreAction = false
+    //     }
+    //   } catch (error) {
+    //     this.$notify({ type: 'danger', message: '操作失败' })
+    //   }
+    // },
+    // async dislike () {
+    //   try {
+    //     if (this.articleId) {
+    //       await disLikeArticle({
+    //         target: this.articleId
+    //       })
+    //       this.$notify({ type: 'success', message: '操作成功' })
+    //       eventBus.$emit('delArticle', this.articleId, this.channels[this.active].id)
+    //       this.showMoreAction = false
+    //     }
+    //   } catch (error) {
+    //     this.$notify({ type: 'danger', message: '操作失败' })
+    //   }
+    // },
+    async dislikeOrReport (params, operatetype) {
       try {
         if (this.articleId) {
-          await reportArticle({
+          operatetype === 'dislike' ? await disLikeArticle({
+            target: this.articleId
+          }) : await reportArticle({
             target: this.articleId,
             type: params
-          })
-          this.$notify({ type: 'success', message: '操作成功' })
-          eventBus.$emit('delArticle', this.articleId, this.channels[this.active].id)
-          this.showMoreAction = false
-        }
-      } catch (error) {
-        this.$notify({ type: 'danger', message: '操作失败' })
-      }
-    },
-    async dislike () {
-      try {
-        if (this.articleId) {
-          await disLikeArticle({
-            target: this.articleId
           })
           this.$notify({ type: 'success', message: '操作成功' })
           eventBus.$emit('delArticle', this.articleId, this.channels[this.active].id)
