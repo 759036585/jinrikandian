@@ -25,3 +25,15 @@ export const disLikeArticle = (data) => {
     data
   })
 }
+
+/**
+ * 举报文章接口
+ * */
+
+export const reportArticle = (data) => {
+  return request({
+    url: '/article/reports',
+    method: 'post',
+    data
+  })
+}
