@@ -6,18 +6,22 @@
         <article-list @showMoreAction="openMoreAction" :channel_id="item.id"></article-list>
       </van-tab>
     </van-tabs>
-    <span class="bar_btn">
+    <span class="bar_btn" @click="showChannelEdit=true">
       <van-icon name="wap-nav"/>
     </span>
     <van-popup :style="{ width: '80%' }" v-model="showMoreAction">
 <!--      <more-action @dislike="dislike" @report="report($event)"></more-action>-->
       <more-action @dislike="dislikeOrReport($event, 'dislike')" @report="dislikeOrReport($event, 'report')"></more-action>
     </van-popup>
+    <van-action-sheet :round="false" title="编辑频道" v-model="showChannelEdit">
+      <channel-edit></channel-edit>
+    </van-action-sheet>
   </div>
 </template>
 
 <script>
 import MoreAction from './components/more-action'
+import ChannelEdit from './components/channel-edit'
 import ArticleList from './components/article-list'
 import { getMyChannels } from '../../api/channels'
 import { disLikeArticle, reportArticle } from '../../api/article'
@@ -25,7 +29,8 @@ import eventBus from '../../utils/eventBus'
 export default {
   components: {
     ArticleList,
-    MoreAction
+    MoreAction,
+    ChannelEdit
   },
   name: 'index',
   data () {
@@ -33,7 +38,8 @@ export default {
       active: 0,
       channels: [],
       showMoreAction: false, // 控制反馈组件显示隐藏
-      articleId: null // 定义一个值接受
+      articleId: null, // 定义一个值接受
+      showChannelEdit: false
     }
   },
   methods: {
