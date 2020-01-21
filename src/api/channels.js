@@ -7,3 +7,10 @@ export const getMyChannels = () => {
     url: '/user/channels'
   })
 }
+
+// 获取所有频道
+export const getAllChannels = () => {
+  return requset({
+    url: '/channels'
+  })
+}
