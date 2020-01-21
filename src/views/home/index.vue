@@ -3,30 +3,57 @@
   <div class="container">
     <van-tabs v-model="active" swipeable>
       <van-tab :title="item.name" v-for="item in channels" :key="item.id">
-        <article-list :channel_id="item.id"></article-list>
+        <article-list @showMoreAction="openMoreAction" :channel_id="item.id"></article-list>
       </van-tab>
     </van-tabs>
     <span class="bar_btn">
       <van-icon name="wap-nav"/>
     </span>
+    <van-popup :style="{ width: '80%' }" v-model="showMoreAction">
+      <more-action @dislike="dislike"></more-action>
+    </van-popup>
   </div>
 </template>
 
 <script>
+import MoreAction from './components/more-action'
 import ArticleList from './components/article-list'
 import { getMyChannels } from '../../api/channels'
+import { disLikeArticle } from '../../api/article'
+import eventBus from '../../utils/eventBus'
 export default {
   components: {
-    ArticleList
+    ArticleList,
+    MoreAction
   },
   name: 'index',
   data () {
     return {
       active: 0,
-      channels: []
+      channels: [],
+      showMoreAction: false, // 控制反馈组件显示隐藏
+      articleId: null // 定义一个值接受
     }
   },
   methods: {
+    async dislike () {
+      try {
+        if (this.articleId) {
+          await disLikeArticle({
+            target: this.articleId
+          })
+          this.$notify({ type: 'success', message: '操作成功' })
+          eventBus.$emit('delArticle', this.articleId, this.channels[this.active].id)
+          this.showMoreAction = false
+        }
+      } catch (error) {
+        this.$notify({ type: 'danger', message: '操作失败' })
+      }
+    },
+    openMoreAction (artId) {
+      this.showMoreAction = true
+      this.articleId = artId
+    },
     // 获取频道
     async getMyChannels () {
       let data = await getMyChannels()

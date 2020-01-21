@@ -12,3 +12,16 @@ export const getArticles = (params) => {
     params: { with_top: 1, ...params }
   })
 }
+
+/**
+ * 更多操作不感兴趣接口
+ *
+ * 不喜欢文章接口
+ * */
+export const disLikeArticle = (data) => {
+  return request({
+    url: '/article/dislikes',
+    method: 'post',
+    data
+  })
+}

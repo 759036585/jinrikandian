@@ -17,7 +17,7 @@
                 <span>{{ item.aut_name }}</span>
                 <span>{{ item.comm_count }}评论</span>
                 <span>{{ item.pubdate | relTime }}</span>
-                <span class="close" v-if="user.token">
+                <span class="close" v-if="user.token" @click="$emit('showMoreAction', item.art_id.toString())">
                   <van-icon name="cross">
                   </van-icon>
                 </span>
@@ -30,6 +30,7 @@
 </template>
 
 <script>
+import eventBus from '../../../utils/eventBus'
 import { getArticles } from '../../../api/article'
 import { mapState } from 'vuex'
 export default {
@@ -82,6 +83,17 @@ export default {
         this.refreshSuccessText = '已是最新数据'
       }
     }
+  },
+  created () {
+    eventBus.$on('delArticle', (articleId, channelId) => {
+      if (this.channel_id === channelId) {
+        let index = this.articles.findIndex(item => item.art_id.toString() === articleId)
+        // 如果index大于-1 表示找到了 就要删除
+        if (index > -1) {
+          this.articles.splice(index, 1) // 删除不喜欢的文章
+        }
+      }
+    })
   }
 }
 </script>
