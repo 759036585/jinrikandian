@@ -14,7 +14,7 @@
       <more-action @dislike="dislikeOrReport($event, 'dislike')" @report="dislikeOrReport($event, 'report')"></more-action>
     </van-popup>
     <van-action-sheet :round="false" title="编辑频道" v-model="showChannelEdit">
-      <channel-edit :channels="channels"></channel-edit>
+      <channel-edit :channels="channels" @selectChannel="selectChannel"></channel-edit>
     </van-action-sheet>
   </div>
 </template>
@@ -43,6 +43,11 @@ export default {
     }
   },
   methods: {
+    selectChannel (id) {
+      let index = this.channels.findIndex(item => item.id === id) // 获取切换频道的索引
+      this.active = index // 将tabs激活标签切换到对应的标签下
+      this.showChannelEdit = false // 关闭弹层
+    },
     // async report (params) {
     //   try {
     //     if (this.articleId) {
