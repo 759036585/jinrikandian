@@ -9,7 +9,7 @@
         </div>
         <van-grid class="van-hairline--left">
           <van-grid-item v-for="(index,i) in channels" :key="index.id">
-            <span class="f12" @click="$emit('selectChannel',index.id)">{{ index.name }}</span>
+            <span :class="{red: i===active}" class="f12" @click="$emit('selectChannel',index.id)">{{ index.name }}</span>
             <van-icon class="btn" name="cross" v-if="i !== 0"></van-icon>
           </van-grid-item>
         </van-grid>
@@ -30,7 +30,7 @@
 import { getAllChannels } from '../../../api/channels'
 
 export default {
-  props: ['channels'],
+  props: ['channels', 'active'],
   name: 'channel-edit',
   computed: {
     optionalChannels () {
