@@ -14,7 +14,7 @@
       <more-action @dislike="dislikeOrReport($event, 'dislike')" @report="dislikeOrReport($event, 'report')"></more-action>
     </van-popup>
     <van-action-sheet :round="false" title="编辑频道" v-model="showChannelEdit">
-      <channel-edit :channels="channels" @selectChannel="selectChannel" :active="active" @delChannel="delChannel"></channel-edit>
+      <channel-edit :channels="channels" @selectChannel="selectChannel" :active="active" @delChannel="delChannel" @addChannel="addChannel"></channel-edit>
     </van-action-sheet>
   </div>
 </template>
@@ -23,7 +23,7 @@
 import MoreAction from './components/more-action'
 import ChannelEdit from './components/channel-edit'
 import ArticleList from './components/article-list'
-import { delChannel, getMyChannels } from '../../api/channels'
+import { addChannel, delChannel, getMyChannels } from '../../api/channels'
 import { disLikeArticle, reportArticle } from '../../api/article'
 import eventBus from '../../utils/eventBus'
 export default {
@@ -43,6 +43,10 @@ export default {
     }
   },
   methods: {
+    async addChannel (channel) {
+      await addChannel(channel)
+      this.channels.push(channel) // 自身加一个频道 影响子组件
+    },
     async delChannel (id) {
       try {
         await delChannel(id)

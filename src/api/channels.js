@@ -58,3 +58,13 @@ export const delChannel = (id) => {
     }
   })
 }
+// 添加我的频道
+export const addChannel = (channel) => {
+  return new Promise(function (resolve, reject) {
+    let key = store.state.user.token ? CACHE_CHANNEL_U : CACHE_CHANNEL_T // 用于缓存的key
+    let channels = JSON.parse(localStorage.getItem(key)) // 得到缓存结果 缓存中一定是有数据的
+    channels.push(channel) // 将频道添加到队尾
+    localStorage.setItem(key, JSON.stringify(channels)) // 写入缓存
+    resolve() // 释放成功
+  })
+}
