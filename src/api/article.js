@@ -37,3 +37,13 @@ export const reportArticle = (data) => {
     data
   })
 }
+/**
+ *
+ * 获取文章搜索的建议
+ * */
+export const suggestion = (params) => {
+  return request({
+    url: '/suggestion',
+    params
+  })
+}

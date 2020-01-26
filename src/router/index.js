@@ -29,7 +29,7 @@ const routes = [
   // 登陆组件
   { path: '/login', component: Login },
   { path: '/search', component: Search },
-  { path: '/result', component: Result },
+  { path: '/search/result', component: Result },
   { path: '/article', component: Article }
 
 ]
