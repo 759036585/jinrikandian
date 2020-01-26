@@ -10,7 +10,7 @@
         <van-grid class="van-hairline--left">
           <van-grid-item v-for="(index,i) in channels" :key="index.id">
             <span :class="{red: i===active}" class="f12" @click="$emit('selectChannel',index.id)">{{ index.name }}</span>
-            <van-icon class="btn" name="cross" v-if="i !== 0"></van-icon>
+            <van-icon class="btn" name="cross" v-if="i !== 0" @click="$emit('delChannel',index.id)"></van-icon>
           </van-grid-item>
         </van-grid>
       </div>

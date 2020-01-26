@@ -14,7 +14,7 @@
       <more-action @dislike="dislikeOrReport($event, 'dislike')" @report="dislikeOrReport($event, 'report')"></more-action>
     </van-popup>
     <van-action-sheet :round="false" title="编辑频道" v-model="showChannelEdit">
-      <channel-edit :channels="channels" @selectChannel="selectChannel" :active="active"></channel-edit>
+      <channel-edit :channels="channels" @selectChannel="selectChannel" :active="active" @delChannel="delChannel"></channel-edit>
     </van-action-sheet>
   </div>
 </template>
@@ -23,7 +23,7 @@
 import MoreAction from './components/more-action'
 import ChannelEdit from './components/channel-edit'
 import ArticleList from './components/article-list'
-import { getMyChannels } from '../../api/channels'
+import { delChannel, getMyChannels } from '../../api/channels'
 import { disLikeArticle, reportArticle } from '../../api/article'
 import eventBus from '../../utils/eventBus'
 export default {
@@ -43,6 +43,17 @@ export default {
     }
   },
   methods: {
+    async delChannel (id) {
+      try {
+        await delChannel(id)
+        let index = this.channels.findIndex(item => item.id === id)
+        if (index > -1) {
+          this.channels.splice(index, 1) // 移除当前频道
+        }
+      } catch (error) {
+        this.notify({ type: 'danger', message: '删除频道失败' })
+      }
+    },
     selectChannel (id) {
       let index = this.channels.findIndex(item => item.id === id) // 获取切换频道的索引
       this.active = index // 将tabs激活标签切换到对应的标签下
