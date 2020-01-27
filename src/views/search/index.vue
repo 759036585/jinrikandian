@@ -52,7 +52,7 @@ export default {
             return false
           }
           let data = await suggestion({ q: this.q })
-          console.log(data)
+          // console.log(data)
           this.suggestList = data.options
         }, 300)
       }
