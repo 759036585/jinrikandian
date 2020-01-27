@@ -60,3 +60,13 @@ export const searchArticle = (params) => {
     params
   })
 }
+
+/***
+ *
+ * 获取文章详情
+ */
+export const getArticleInfo = (id) => {
+  return request({
+    url: `/articles/${id}`
+  })
+}

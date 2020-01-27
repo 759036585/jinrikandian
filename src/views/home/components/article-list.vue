@@ -2,7 +2,7 @@
     <div class="scroll-wrapper">
       <van-pull-refresh v-model="downLoading" @refresh="onRefresh" :success-text="refreshSuccessText">
         <van-list v-model="upLoading" :finished="finished" @load="onLoad">
-          <van-cell v-for="item in articles" :key="item.art_id.toString()" >
+          <van-cell :to="`/article?articleId=${item.art_id.toString()}`" v-for="item in articles" :key="item.art_id.toString()" >
             <div class="article_item" >
               <h3 class="van-ellipsis">{{ item.title }}</h3>
               <div class="img_box" v-if="item.cover.type === 3">
@@ -17,7 +17,7 @@
                 <span>{{ item.aut_name }}</span>
                 <span>{{ item.comm_count }}评论</span>
                 <span>{{ item.pubdate | relTime }}</span>
-                <span class="close" v-if="user.token" @click="$emit('showMoreAction', item.art_id.toString())">
+                <span class="close" v-if="user.token" @click.stop="$emit('showMoreAction', item.art_id.toString())">
                   <van-icon name="cross">
                   </van-icon>
                 </span>
