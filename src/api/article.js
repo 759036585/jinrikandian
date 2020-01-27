@@ -47,3 +47,16 @@ export const suggestion = (params) => {
     params
   })
 }
+
+/***
+ *
+ * 获取文章搜索结果
+ * params是get参数
+ * data是body参数
+ */
+export const searchArticle = (params) => {
+  return request({
+    url: '/search',
+    params
+  })
+}

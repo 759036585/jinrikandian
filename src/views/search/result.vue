@@ -2,23 +2,23 @@
 <!--    搜索结果组件-->
   <div class="container">
     <van-nav-bar title="搜索结果" @click-left="$router.back()" left-arrow></van-nav-bar>
-    <van-list>
+    <van-list v-model="upLoading" :finished="finished" @load="onLoad">
       <van-cell-group>
-        <van-cell>
+        <van-cell v-for="item in articles" :key="item.art_id.toString()">
           <div class="article_item">
-            <h3 class="van-ellipsis">puhhssssdaas</h3>
-            <div class="img_box">
-              <van-image class="w33" fit="cover" src="https://img.yzcdn.cn/vant/cat.jpeg" />
-              <van-image class="w33" fit="cover" src="https://img.yzcdn.cn/vant/cat.jpeg" />
-              <van-image class="w33" fit="cover" src="https://img.yzcdn.cn/vant/cat.jpeg" />
+            <h3 class="van-ellipsis">{{ item.title }}</h3>
+            <div class="img_box" v-if="item.cover.type === 3">
+              <van-image class="w33" fit="cover" :src="item.cover.images[0]" />
+              <van-image class="w33" fit="cover" :src="item.cover.images[1]" />
+              <van-image class="w33" fit="cover" :src="item.cover.images[2]" />
             </div>
-            <div class="img_box">
-              <van-image class="w33" fit="cover" src="https://img.yzcdn.cn/vant/cat.jpeg" />
+            <div class="img_box" v-if="item.cover.type === 1">
+              <van-image class="w33" fit="cover" :src="item.cover.images[0]" />
             </div>
             <div class="info_box">
-              <span>你像一阵风</span>
-              <span>8评论</span>
-              <span>10分钟前</span>
+              <span>{{ item.aut_name }}</span>
+              <span>{{ item.comm_count }}评论</span>
+              <span>{{ item.pubdate | relTime }}</span>
             </div>
           </div>
         </van-cell>
@@ -28,8 +28,34 @@
 </template>
 
 <script>
+import { searchArticle } from '../../api/article'
+
 export default {
-  name: 'result'
+  name: 'result',
+  data () {
+    return {
+      upLoading: false,
+      finished: false,
+      articles: [],
+      page: {
+        page: 1,
+        per_page: 10
+      }
+    }
+  },
+  methods: {
+    async onLoad () {
+      let { q } = this.$route.query // 从地址栏解析查询参数
+      let data = await searchArticle({ ...this.page, q })
+      this.articles.push(...data.results)
+      this.upLoading = false
+      if (data.results.length) {
+        this.page.page++
+      } else {
+        this.finished = true
+      }
+    }
+  }
 }
 </script>
 
