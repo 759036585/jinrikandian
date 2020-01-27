@@ -19,7 +19,7 @@
         <van-grid class="van-hairline--left">
           <van-grid-item v-for="index in optionalChannels" :key="index.id">
             <span class="f12">{{ index.name }}</span>
-            <van-icon class="btn" name="plus" @click="$emit('addChannel',index)"></van-icon>
+            <van-icon class="btn" name="plus" @click="$emit('addChannel',index)" v-show="editing"></van-icon>
           </van-grid-item>
         </van-grid>
       </div>
