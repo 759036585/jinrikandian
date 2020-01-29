@@ -4,7 +4,7 @@
     <van-nav-bar title="搜索结果" @click-left="$router.back()" left-arrow></van-nav-bar>
     <van-list v-model="upLoading" :finished="finished" @load="onLoad">
       <van-cell-group>
-        <van-cell v-for="item in articles" :key="item.art_id.toString()">
+        <van-cell v-for="item in articles" :key="item.art_id.toString()" :to="`/article?articleId=${item.art_id.toString()}`">
           <div class="article_item">
             <h3 class="van-ellipsis">{{ item.title }}</h3>
             <div class="img_box" v-if="item.cover.type === 3">
