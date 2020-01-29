@@ -16,18 +16,22 @@
       </div>
       <div class="zan">
         <van-button  round size="small" :class="{active: article.attitude === 1 }" plain icon="like-o">点赞</van-button>
-        &nbsp;&nbsp;&nbsp;&nbsp;
         <van-button  round size="small" :class="{active: article.attitude === 0 }" plain icon="delete">不喜欢</van-button>
       </div>
     </div>
+    <comment></comment>
   </div>
 </template>
 
 <script>
 import { getArticleInfo } from '../../api/article'
 import { followUser, unFollowUser } from '../../api/user'
+import Comment from './components/index'
 
 export default {
+  components: {
+    Comment
+  },
   data () {
     return {
       article: {}
