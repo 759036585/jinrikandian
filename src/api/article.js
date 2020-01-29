@@ -70,3 +70,13 @@ export const getArticleInfo = (id) => {
     url: `/articles/${id}`
   })
 }
+
+/***
+ * 获取评论
+ */
+export const getComments = (params) => {
+  return request({
+    url: '/comments',
+    params
+  })
+}

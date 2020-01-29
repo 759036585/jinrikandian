@@ -61,7 +61,7 @@ export default {
 
 <style lang="less" scoped>
   .container{
-    padding-top: 46px;
+    /*padding-top: 46px;*/
     height: 100%;
     overflow-y: auto;
     box-sizing: border-box;
