@@ -80,3 +80,17 @@ export const getComments = (params) => {
     params
   })
 }
+
+/***
+ * 添加评论或评论回复
+ */
+// export const commentOrReply = (target, content, articleId) => {
+//   return request('/comments', 'POST', { target, content, art_id: articleId })
+// }
+export const commentOrReply = (target, content, articleId) => {
+  return request({
+    url: '/comments',
+    method: 'POST',
+    data: { target, content, art_id: articleId }
+  })
+}

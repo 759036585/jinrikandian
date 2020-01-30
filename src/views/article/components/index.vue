@@ -14,7 +14,7 @@
             <p>{{ comment.content }}</p>
             <p>
               <span class="time">{{ comment.pubdate | relTime }}</span>&nbsp;
-              <van-tag plain @click="showReply=true">{{ comment.reply_count }}回复</van-tag>
+              <van-tag plain @click="openReply(comment.com_id)">{{ comment.reply_count }}回复</van-tag>
             </p>
           </div>
         </div>
@@ -22,18 +22,18 @@
       <div class="reply-container van-hairline--top">
         <van-field v-model="value" placeholder="写评论...">
           <van-loading v-if="submiting" slot="button" type="spinner" size="16px"></van-loading>
-          <span class="submit" v-else slot="button">提交</span>
+          <span class="submit" @click="submit()" v-else slot="button">提交</span>
         </van-field>
       </div>
 <!--      评论回复-->
-      <van-action-sheet v-model="showReply" class="reply_dailog" title="回复评论">
-        <van-list v-model="reply.loading" :finished="reply.finished" finished-text="没有更多了">
-          <div class="item van-hairline--bottom van-hairline--top" v-for="index in 8" :key="index">
-            <van-image round width="1rem" height="1rem" fit="fill" src="https://img.yzdn.cn/vant/cat.jpeg" />
+      <van-action-sheet v-model="showReply" @closed="reply.commentId=null" class="reply_dailog" title="回复评论">
+        <van-list v-model="reply.loading" :finished="reply.finished" finished-text="没有更多了" @load="loadReply()" :immediate-check="false">
+          <div class="item van-hairline--bottom van-hairline--top" v-for="item in reply.list" :key="item.com_id.toString()">
+            <van-image round width="1rem" height="1rem" fit="fill" :src="item.aut_photo" />
             <div class="info">
-              <p><span class="name">一阵清风</span></p>
-              <p>评论内容。。。。</p>
-              <p><span class="time">两天内</span></p>
+              <p><span class="name">{{ item.aut_name }}</span></p>
+              <p>{{ item.content }}</p>
+              <p><span class="time">{{ item.pubdate | relTime }}</span></p>
             </div>
           </div>
         </van-list>
@@ -42,7 +42,7 @@
 </template>
 
 <script>
-import { getComments } from '../../../api/article'
+import { commentOrReply, getComments } from '../../../api/article'
 
 export default {
   name: 'index',
@@ -55,6 +55,7 @@ export default {
       comments: [],
       showReply: false,
       reply: {
+        commentId: null,
         loading: false,
         finished: false,
         offset: null,
@@ -63,6 +64,26 @@ export default {
     }
   },
   methods: {
+    async submit () {
+      if (!this.value) return false
+      this.submiting = true
+      await this.$sleep()
+      if (this.reply.commentId) {
+        alert(1)
+        const data = await commentOrReply(this.reply.commentId, this.value, this.$route.query.articleId)
+        this.reply.list.unshift(data.new_obj)
+        const comment = this.comments.find(item => item.com_id === this.reply.commentId)
+        comment.reply_count++
+        this.value = ''
+        console.log(data)
+        this.submiting = false
+      } else {
+        const data = await commentOrReply(this.$route.query.articleId, this.value)
+        this.comments.unshift(data.new_obj)
+        this.value = ''
+        this.submiting = false
+      }
+    },
     async onLoad () {
       let data = await getComments({
         type: 'a',
@@ -74,6 +95,26 @@ export default {
       this.finished = data.last_id === data.end_id // 是否一请求到最后一页
       if (!this.finished) {
         this.offset = this.last_id
+      }
+    },
+    openReply (id) {
+      this.showReply = true
+      this.reply.commentId = id
+      this.reply.finished = false
+      this.reply.loading = false
+      this.reply.list = []
+      this.reply.offset = null
+      this.getReplys()
+    },
+    async getReplys () {
+      await this.$sleep()
+      const data = await getComments(this.reply.commentId.toString(), 'c', this.reply.offset)
+      this.reply.list.push(...data.results)
+      this.reply.loading = false
+      if (data.end_id < data.last_id) {
+        this.reply.offset = data.last_id
+      } else {
+        this.reply.finished = true
       }
     }
   }
