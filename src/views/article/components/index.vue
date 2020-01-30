@@ -28,7 +28,7 @@
 <!--      评论回复-->
       <van-action-sheet v-model="showReply" @closed="reply.commentId=null" class="reply_dailog" title="回复评论">
         <van-list v-model="reply.loading" :finished="reply.finished" finished-text="没有更多了" @load="loadReply()" :immediate-check="false">
-          <div class="item van-hairline--bottom van-hairline--top" v-for="item in reply.list" :key="item.com_id.toString()">
+          <div class="item van-hairline--bottom van-hairline--top" v-for="item in reply.list" :key="item.com_id">
             <van-image round width="1rem" height="1rem" fit="fill" :src="item.aut_photo" />
             <div class="info">
               <p><span class="name">{{ item.aut_name }}</span></p>

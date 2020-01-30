@@ -2,9 +2,9 @@
 <!--    搜索中心组件-->
   <div class="container">
     <van-nav-bar left-arrow title="搜索中心" @click-left="$router.back()"></van-nav-bar>
-    <van-search v-model.trim="q" placeholder="请输入搜索关键词" shape="round"></van-search>
+    <van-search v-model.trim="q" placeholder="请输入搜索关键词" shape="round" ></van-search>
     <van-cell-group class="suggest-box" v-if="q">
-      <van-cell icon="search" v-for="(item,index) in suggestList" :key="index" @click="toSearchResult(item)">
+      <van-cell  icon="search" v-for="(item,index) in suggestList" :key="index" @click="toSearchResult(item)">
         <span>{{ item }}</span>
       </van-cell>
     </van-cell-group>
