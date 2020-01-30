@@ -3,25 +3,29 @@
   <div class="container">
     <div class="user-profile">
       <div class="info">
-        <van-image round src="https://img.yzcdn.cn/vant/cat.jpeg"/>
+        <van-image round :src="userInfo.photo"/>
         <h3 class="name">
-          用户名
+          {{ userInfo.name }}
           <br />
           <van-tag sizi="mini">申请认证</van-tag>
         </h3>
       </div>
       <van-row>
-        <van-col span="8">
-          <p>0</p>
+        <van-col span="6">
+          <p>{{ userInfo.art_count }}</p>
           <p>动态</p>
         </van-col>
-        <van-col span="8">
-          <p>0</p>
+        <van-col span="6">
+          <p> {{ userInfo.follow_count }}</p>
           <p>关注</p>
         </van-col>
-        <van-col span="8">
-          <p>0</p>
+        <van-col span="6">
+          <p>{{ userInfo.fans_count }}</p>
           <p>粉丝</p>
+        </van-col>
+        <van-col span="6">
+          <p>{{ userInfo.like_count }}</p>
+          <p>被赞</p>
         </van-col>
       </van-row>
     </div>
@@ -40,14 +44,43 @@
       <van-cell icon="edit" title="编辑资料" to="/user/profile" is-link />
       <van-cell icon="chat-o" title="小智同学" to="/user/chat" is-link />
       <van-cell icon="setting-o" title="系统设置" is-link />
-      <van-cell icon="warning-o" title="退出登录" to="/login" is-link />
+      <van-cell icon="warning-o" title="退出登录" @click="loginOut" is-link />
     </van-cell-group>
   </div>
 </template>
 
 <script>
+import { mapMutations } from 'vuex'
+import { getUserInfo } from '../../api/user'
 export default {
-  name: 'user'
+  name: 'user',
+  data () {
+    return {
+      userInfo: {}
+    }
+  },
+  methods: {
+    ...mapMutations(['clearUser']),
+    async getUserInfo () {
+      this.userInfo = await getUserInfo()
+    },
+    async loginOut () {
+      try {
+        await this.$dialog.confirm({
+          title: '提示',
+          message: '确定要退出吗'
+        })
+        this.clearUser()
+        this.$router.push('/login')
+      } catch (error) {
+        // error.message('退出失败')
+        console.log('退出失败', error)
+      }
+    }
+  },
+  created () {
+    this.getUserInfo()
+  }
 }
 </script>
 
