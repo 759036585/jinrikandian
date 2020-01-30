@@ -9,7 +9,9 @@
             @click-right="onClickRight"
     />
     <div class="my-wrapper" :class="{ noTop: !showNavBar}">
-      <router-view></router-view>
+      <transition :name="SkipSwitchName">
+        <router-view class="position-div"></router-view>
+      </transition>
     </div>
     <van-tabbar v-model="active" route>
       <van-tabbar-item icon="home-o" to="/">首页</van-tabbar-item>
@@ -25,7 +27,8 @@ export default {
   name: 'index',
   data () {
     return {
-      active: 0
+      active: 0,
+      SkipSwitchName: ''
     }
   },
   computed: {
@@ -37,11 +40,45 @@ export default {
     onClickRight () {
       this.$router.push('/search')
     }
+  },
+  watch: {
+    $route (to, from) {
+      if (to.meta.tx < from.meta.tx) {
+        this.SkipSwitchName = 'Skright'
+      } else {
+        this.SkipSwitchName = 'Skleft'
+      }
+    }
   }
 }
 </script>
 
 <style lang="less" scoped>
+  .position-div{
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+  }
+  .Skright-enter-active,
+  .Skright-leave-active,
+  .Skleft-enter-active,
+  .Skleft-leave-active{
+    transition: all 600ms;
+  }
+  .Skright-enter{
+    transform: translate3d(-100%, 0, 0);
+  }
+  .Skright-enter-leave-to{
+    transform: translate3d(100%, 0, 0);
+  }
+  .Skleft-enter{
+    transform: translate3d(100%, 0, 0);
+  }
+  .Skleft-enter-leave-to{
+    transform: translate3d(-100%, 0, 0);
+  }
   .container {
     width: 100%;
     height: 100%;

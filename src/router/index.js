@@ -17,10 +17,10 @@ const routes = [
   { path: '/',
     component: Layout,
     children: [ // 二级路由组件
-      { path: '/', component: Home },
-      { path: '/question', component: Question },
-      { path: '/video', component: Video },
-      { path: '/user', component: User }
+      { path: '/', component: Home, meta: { tx: 1 } },
+      { path: '/question', component: Question, meta: { tx: 2 } },
+      { path: '/video', component: Video, meta: { tx: 3 } },
+      { path: '/user', component: User, meta: { tx: 4 } }
     ]
   }, // 一级路由组件
   { path: '/user/profile', component: Profile },
