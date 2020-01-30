@@ -25,6 +25,19 @@
           <span class="submit" v-else slot="button">提交</span>
         </van-field>
       </div>
+<!--      评论回复-->
+      <van-action-sheet v-model="showReply" class="reply_dailog" title="回复评论">
+        <van-list v-model="reply.loading" :finished="reply.finished" finished-text="没有更多了">
+          <div class="item van-hairline--bottom van-hairline--top" v-for="index in 8" :key="index">
+            <van-image round width="1rem" height="1rem" fit="fill" src="https://img.yzdn.cn/vant/cat.jpeg" />
+            <div class="info">
+              <p><span class="name">一阵清风</span></p>
+              <p>评论内容。。。。</p>
+              <p><span class="time">两天内</span></p>
+            </div>
+          </div>
+        </van-list>
+      </van-action-sheet>
     </div>
 </template>
 
@@ -39,7 +52,14 @@ export default {
       finished: false,
       value: '',
       submiting: false,
-      comments: []
+      comments: [],
+      showReply: false,
+      reply: {
+        loading: false,
+        finished: false,
+        offset: null,
+        list: []
+      }
     }
   },
   methods: {
@@ -61,6 +81,25 @@ export default {
 </script>
 
 <style lang="less" scoped>
+  .reply_dailog{
+    height: 100%;
+    max-height: 100%;
+    display: flex;
+    overflow: hidden;
+    flex-direction: column;
+    .van-action-sheet_header{
+      background: #3296fa;
+      color: #fff;
+      .van-icon-close{
+        color: #fff;
+      }
+    }
+    .van-action-sheet_content{
+      flex: 1;
+      overflow-y: auto;
+      padding: 0 10px 44px;
+    }
+  }
   .comment{
     margin-top: 10px;
     /deep/ .item{
