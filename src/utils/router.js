@@ -6,7 +6,7 @@ router.beforeEach(function (to, from, next) {
     let toPath = {
       path: '/login',
       query: {
-        redirectUrl: to.path
+        redirectUrl: to.fullPath
       }
     }
     next(toPath)

@@ -31,7 +31,7 @@ instance.interceptors.response.use(function (response) {
     return response.data
   }
 }, async function (error) {
-  let toPath = { path: '/login', query: { redirectUrl: router.currentRoute.path } } // 跳转对象
+  let toPath = { path: '/login', query: { redirectUrl: router.currentRoute.fullPath } } // 跳转对象
   // 错误的时候token容易失效
   if (error.response && error.response.status === 401) {
     try {

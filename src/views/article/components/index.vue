@@ -14,7 +14,7 @@
             <p>{{ comment.content }}</p>
             <p>
               <span class="time">{{ comment.pubdate | relTime }}</span>&nbsp;
-              <van-tag plain @click="openReply(comment.com_id)">{{ comment.reply_count }}回复</van-tag>
+              <van-tag plain @click="openReply(comment.com_id.toString())">{{ comment.reply_count }}回复</van-tag>
             </p>
           </div>
         </div>
@@ -26,9 +26,9 @@
         </van-field>
       </div>
 <!--      评论回复-->
-      <van-action-sheet v-model="showReply" @closed="reply.commentId=null" class="reply_dailog" title="回复评论">
-        <van-list v-model="reply.loading" :finished="reply.finished" finished-text="没有更多了" @load="loadReply()" :immediate-check="false">
-          <div class="item van-hairline--bottom van-hairline--top" v-for="item in reply.list" :key="item.com_id">
+      <van-action-sheet :round="false" v-model="showReply" @closed="reply.commentId=null" class="reply_dailog" title="回复评论">
+        <van-list v-model="reply.loading" :finished="reply.finished" finished-text="没有更多了" @load="getReplys()" :immediate-check="false">
+          <div class="item van-hairline--bottom van-hairline--top" v-for="item in reply.list" :key="item.com_id.toString()">
             <van-image round width="1rem" height="1rem" fit="fill" :src="item.aut_photo" />
             <div class="info">
               <p><span class="name">{{ item.aut_name }}</span></p>
@@ -69,13 +69,11 @@ export default {
       this.submiting = true
       await this.$sleep()
       if (this.reply.commentId) {
-        alert(1)
         const data = await commentOrReply(this.reply.commentId, this.value, this.$route.query.articleId)
         this.reply.list.unshift(data.new_obj)
-        const comment = this.comments.find(item => item.com_id === this.reply.commentId)
-        comment.reply_count++
+        const comment = this.comments.find(item => item.com_id.toString() === this.reply.commentId.toString())
+        comment && comment.reply_count++
         this.value = ''
-        console.log(data)
         this.submiting = false
       } else {
         const data = await commentOrReply(this.$route.query.articleId, this.value)
@@ -94,27 +92,30 @@ export default {
       this.loading = false
       this.finished = data.last_id === data.end_id // 是否一请求到最后一页
       if (!this.finished) {
-        this.offset = this.last_id
+        this.offset = data.last_id
       }
     },
-    openReply (id) {
+    openReply (commentId) {
       this.showReply = true
-      this.reply.commentId = id
-      this.reply.finished = false
-      this.reply.loading = false
+      this.reply.commentId = commentId
       this.reply.list = []
       this.reply.offset = null
+      this.reply.finished = false
+      this.reply.loading = true
       this.getReplys()
     },
     async getReplys () {
       await this.$sleep()
-      const data = await getComments(this.reply.commentId.toString(), 'c', this.reply.offset)
+      const data = await getComments({
+        type: 'c',
+        offset: this.reply.offset,
+        source: this.reply.commentId
+      })
       this.reply.list.push(...data.results)
       this.reply.loading = false
-      if (data.end_id < data.last_id) {
+      this.reply.finished = data.end_id === data.last_id
+      if (!this.reply.finished) {
         this.reply.offset = data.last_id
-      } else {
-        this.reply.finished = true
       }
     }
   }
@@ -122,13 +123,49 @@ export default {
 </script>
 
 <style lang="less" scoped>
+  .comment{
+    margin-top: 10px;
+    /deep/ .item {
+      display: flex;
+      padding: 10px 0;
+      .van-image{
+        padding-left: 10px;
+      }
+      .info{
+          flex: 1;
+          padding-left: 10px;
+          .name{
+            color: #069;
+          }
+          .zan{
+            vertical-align: middle;
+            padding-right: 2px;
+          }
+          .count{
+            vertical-align: middle;
+            font-size: 10px;
+            color: #666;
+          }
+          .time{
+            color: #666666;
+          }
+          p{
+            padding: 5px 0;
+            margin: 0 10px 0 0;
+          }
+        }
+    }
+    /deep/ .van-button:active::before{
+      background: transparent;
+    }
+  }
   .reply_dailog{
     height: 100%;
     max-height: 100%;
     display: flex;
     overflow: hidden;
     flex-direction: column;
-    .van-action-sheet_header{
+    .van-action-sheet__header{
       background: #3296fa;
       color: #fff;
       .van-icon-close{
@@ -141,39 +178,6 @@ export default {
       padding: 0 10px 44px;
     }
   }
-  .comment{
-    margin-top: 10px;
-    /deep/ .item{
-      display: flex;
-      padding: 10px 0;
-      .info{
-        flex: 1;
-        padding-left: 10px;
-        .name{
-          color: #069;
-        }
-        .zan{
-          vertical-align: middle;
-          padding-right: 2px;
-        }
-        .count{
-          vertical-align: middle;
-          font-size: 10px;
-          color: #666;
-        }
-        .time{
-          color: #666666;
-        }
-        p{
-          padding: 5px 0;
-          margin: 0 10px 0 0;
-        }
-      }
-    }
-    /deep/ .van-button:active::before{
-      background: transparent;
-    }
-  }
   .reply-container{
     position: fixed;
     left: 0;
@@ -181,7 +185,7 @@ export default {
     height: 44px;
     width: 100%;
     background: #f5f5;
-    z-index: 999;
+    z-index: 99999;
     .submit{
       font-size: 12px;
       color: #3296fa;
