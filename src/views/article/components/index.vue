@@ -172,7 +172,7 @@ export default {
         color: #fff;
       }
     }
-    .van-action-sheet_content{
+    .van-action-sheet__content{
       flex: 1;
       overflow-y: auto;
       padding: 0 10px 44px;

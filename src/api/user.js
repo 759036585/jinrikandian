@@ -32,3 +32,27 @@ export const getUserInfo = () => {
     url: '/user'
   })
 }
+
+/* 获取用户个人资料 */
+export const getUserProfile = () => {
+  return request({
+    url: '/user/profile'
+  })
+}
+
+/* 编辑用户照片资料 */
+export const editUserPhoto = (data) => {
+  return request({
+    url: '/user/photo',
+    method: 'patch',
+    data
+  })
+}
+
+/* 编辑用户个人资料 */
+export const editUserInfo = (data) => {
+  return request({
+    url: '/user/profile',
+    data
+  })
+}
