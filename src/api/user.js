@@ -53,6 +53,7 @@ export const editUserPhoto = (data) => {
 export const editUserInfo = (data) => {
   return request({
     url: '/user/profile',
+    method: 'patch',
     data
   })
 }
