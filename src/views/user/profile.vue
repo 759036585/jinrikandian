@@ -40,6 +40,7 @@
 <script>
 import dayjs from 'dayjs'
 import { editUserInfo, editUserPhoto, getUserProfile } from '../../api/user'
+import { mapMutations } from 'vuex'
 
 export default {
   data () {
@@ -60,12 +61,14 @@ export default {
     }
   },
   methods: {
+    ...mapMutations(['updatePhoto']),
     async upload () {
       let data = new FormData()
       data.append('photo', this.$refs.myFile.files[0])
       let results = await editUserPhoto(data)
       this.user.photo = results.photo
       this.showPhoto = false
+      this.updatePhoto({ photo: results.photo })
       this.$notify({ type: 'success', message: '修改成功' })
     },
     openFile () {
@@ -88,6 +91,7 @@ export default {
       const data = await getUserProfile()
       this.user.name = data.name
       this.user.photo = data.photo
+      this.updatePhoto({ photo: data.photo })
     },
     async editUserinfo () {
       try {

@@ -11,6 +11,7 @@ import Login from '../views/login' // 登录组件
 import Search from '../views/search' // 搜索中心组件
 import Result from '../views/search/result' // 搜索结果组件
 import Article from '../views/article' // 文章详情组件
+
 Vue.use(VueRouter)
 
 const routes = [
