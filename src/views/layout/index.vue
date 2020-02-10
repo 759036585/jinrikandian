@@ -9,9 +9,12 @@
             @click-right="onClickRight"
     />
     <div class="my-wrapper" :class="{ noTop: !showNavBar}">
-      <transition :name="SkipSwitchName">
-        <router-view class="position-div"></router-view>
-      </transition>
+      <keep-alive>
+        <transition :name="SkipSwitchName">
+            <router-view class="position-div"></router-view>
+<!--          <router-view></router-view>-->
+        </transition>
+      </keep-alive>
     </div>
     <van-tabbar v-model="active" route>
       <van-tabbar-item icon="home-o" to="/">首页</van-tabbar-item>

@@ -1,5 +1,5 @@
 <template>
-    <div class="scroll-wrapper">
+    <div class="scroll-wrapper" @scroll="remeber" ref="myScroll">
       <van-pull-refresh v-model="downLoading" @refresh="onRefresh" :success-text="refreshSuccessText">
         <van-list v-model="upLoading" :finished="finished" @load="onLoad">
           <van-cell :to="`/article?articleId=${item.art_id.toString()}`" v-for="item in articles" :key="item.art_id.toString()" >
@@ -39,7 +39,8 @@ export default {
     channel_id: {
       type: Number, // type是指定的类型
       default: null, // default 是默认值
-      required: true // 要求必须传该props属性 否则报错
+      required: true, // 要求必须传该props属性 否则报错
+      scrollTop: 0
     }
   },
   computed: {
@@ -55,7 +56,15 @@ export default {
       timestamp: null
     }
   },
+  activated () {
+    if (this.$refs.myScroll && this.scrollTop) {
+      this.$refs.myScroll.scrollTop = this.scrollTop
+    }
+  },
   methods: {
+    remeber (event) {
+      this.scrollTop = event.target.scrollTop
+    },
     async onLoad () {
       await this.$sleep()
       let data = await getArticles({ channel_id: this.channel_id, timestamp: this.timestamp || Date.now() })
@@ -92,6 +101,16 @@ export default {
         if (index > -1) {
           this.articles.splice(index, 1) // 删除不喜欢的文章
         }
+      }
+    })
+    eventBus.$on('changeTab', id => {
+      if (id === this.channel_id) {
+        console.log(11)
+        this.$nextTick(() => {
+          if (this.$refs.myScroll && this.scrollTop) {
+            this.$refs.myScroll.scrollTop = this.scrollTop
+          }
+        })
       }
     })
   }

@@ -1,8 +1,8 @@
 <template>
 <!--    小智同学组件-->
   <div class="container">
-    <van-nav-bar title="小智同学" left-arrow @click-left="$router.back()"></van-nav-bar>
-    <div class="chat-list" ref="list">
+    <van-nav-bar title="小智同学" fixed left-arrow @click-left="$router.back()"></van-nav-bar>
+    <div class="chat-list" ref="myList">
       <div :class="{ left: item.name === 'xz', right: item.name!='xz' }" class="chat-item" v-for="(item, index) in list" :key="index">
         <van-image fit="cover" round :src="xzPhoto" v-if="item.name === 'xz'"/>
         <div class="chat-pao">{{ item.msg }}</div>
@@ -47,7 +47,7 @@ export default {
     },
     scrollBottom () {
       this.$nextTick(() => {
-        this.$refs.list.scrollTop = this.$refs.list.scrollHeight
+        this.$refs.myList.scrollTop = this.$refs.myList.scrollHeight
       })
     }
   },
@@ -59,6 +59,7 @@ export default {
     })
     this.socket.on('message', (date) => {
       this.list.push({ ...date, name: 'xz' })
+      this.scrollBottom()
     })
   },
   beforeDestroy () {

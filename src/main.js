@@ -7,10 +7,12 @@ import 'vant/lib/index.css'
 import 'amfe-flexible'
 import './styles/index.css'
 import Plugin from './utils/plugin'
+// import vueg from 'vueg'
 
 Vue.use(Vant)
 Vue.use(Plugin)
 Vue.use(Lazyload)
+// Vue.use(vueg)
 Vue.config.productionTip = false
 
 new Vue({

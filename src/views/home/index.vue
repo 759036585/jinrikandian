@@ -1,7 +1,7 @@
 <template>
 <!--    首页组件-->
   <div class="container">
-    <van-tabs v-model="active" swipeable>
+    <van-tabs v-model="active" swipeable @change="changeTab">
       <van-tab :title="item.name" v-for="item in channels" :key="item.id">
         <article-list @showMoreAction="openMoreAction" :channel_id="item.id"></article-list>
       </van-tab>
@@ -43,6 +43,9 @@ export default {
     }
   },
   methods: {
+    changeTab () {
+      eventBus.$emit('changeTab', this.channels[this.active].id)
+    },
     async addChannel (channel) {
       await addChannel(channel)
       this.channels.push(channel) // 自身加一个频道 影响子组件
